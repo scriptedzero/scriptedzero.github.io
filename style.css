@@ -1,0 +1,75 @@
+/* style.css (Rose Pine Moon inspired) */
+:root{
+--bg:#191724; /* moon - dark */
+--surface:#11111b;
+--muted:#6e6a86;
+--text:#e0def4;
+--subtle:#2a273f;
+--accent:#fec7ff; /* soft pink */
+--accent-2:#9ccfd8; /* teal-ish */
+--glass: rgba(255,255,255,0.03);
+}
+
+
+*{box-sizing:border-box}
+body{
+margin:0; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+background: linear-gradient(180deg,var(--bg),#0f0d18);
+color:var(--text);
+-webkit-font-smoothing:antialiased;
+-moz-osx-font-smoothing:grayscale;
+}
+
+
+.app{max-width:960px;margin:36px auto;padding:24px}
+.top{text-align:center;margin-bottom:18px}
+.subtitle{color:var(--muted);margin-top:6px;font-size:14px}
+
+
+.grid{display:grid;grid-template-columns:1fr;gap:18px}
+@media(min-width:880px){.grid{grid-template-columns:1fr 420px}}
+
+
+.card{
+background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.015));
+border-radius:14px;padding:18px;border:1px solid rgba(255,255,255,0.03);
+box-shadow: 0 6px 18px rgba(2,2,6,0.6);
+}
+
+
+h1{font-size:24px;margin:0}
+h2{margin:0 0 12px 0;font-size:18px}
+h3{margin:14px 0 8px 0}
+.muted{color:var(--muted);font-size:13px}
+
+
+.row{display:flex;gap:10px;align-items:center}
+.row.small{gap:8px}
+input{flex:1;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:var(--surface);color:var(--text);outline:none}
+input::placeholder{color:var(--muted)}
+
+
+button{background:linear-gradient(180deg,var(--accent),#f4b1f4);color:#11111b;border:none;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:600}
+button:hover{transform:translateY(-1px)}
+.filebtn{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;background:var(--subtle);cursor:pointer}
+.filebtn input{display:none}
+
+
+.list{margin:12px 0 0 0;padding-left:18px}
+.list li{margin:6px 0}
+.admin-panel{margin-top:12px;display:none;opacity:0;transition:all .18s ease}
+.admin-panel.visible{display:block;opacity:1}
+
+
+.foot{margin-top:18px;color:var(--muted);text-align:center}
+
+
+/* small responsive tweaks */
+@media(max-width:600px){.app{padding:16px}.row{flex-direction:column}.row .small{flex-direction:row}}
+
+
+/* helper */
+.muted{color:var(--muted)}
+
+
+/* end of style.css */
