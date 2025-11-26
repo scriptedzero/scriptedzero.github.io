@@ -1,200 +1,133 @@
-<!-- index.html -->
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>모둠 준비물 확인기</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <title>모둠 준비물 시스템</title>
+  <link href="style.css" rel="stylesheet" />
 </head>
 <body>
-  <div class="app">
-    <header class="top">
-      <h1>모둠 준비물 확인기</h1>
-      <p class="subtitle">방장/부방장은 코드 안에 하드코딩되어 있습니다. (웹사이트에서 변경 불가)</p>
-    </header>
+  <div class="container">
+    <h1>📦 모둠 준비물 확인 시스템</h1>
 
-    <main class="grid">
-      <section class="card">
-        <h2>내 준비물 확인</h2>
-        <div class="row">
-          <input id="nameInput" placeholder="이름을 입력하세요" />
-          <button id="checkBtn">확인</button>
-        </div>
-        <ul id="myList" class="list"></ul>
-      </section>
+    <!-- 이름 입력 -->
+    <div class="card">
+      <h2>이름 입력</h2>
+      <input type="text" id="nameInput" placeholder="이름을 입력하세요" />
+      <button onclick="checkItems()">확인</button>
+      <div id="result"></div>
+    </div>
 
-      <section class="card">
-        <h2>관리자 모드</h2>
-        <p class="muted">방장과 부방장은 코드 상의 <code>leaders</code> 배열에만 적혀 있습니다. 웹 UI로는 변경할 수 없습니다.</p>
+    <!-- 관리자 영역 -->
+    <div class="card" id="adminSection" style="display:none;">
+      <h2>👑 관리자 (방장 / 부방장)</h2>
 
-        <div class="row">
-          <input id="adminName" placeholder="방장/부방장 이름 입력" />
-          <button id="becomeAdmin">관리자 모드</button>
-        </div>
+      <h3>준비물 추가</h3>
+      <input type="text" id="memberName" placeholder="멤버 이름" />
+      <input type="text" id="itemName" placeholder="준비물" />
+      <button onclick="addItem()">추가</button>
 
-        <div id="adminPanel" class="admin-panel" aria-hidden="true">
-          <h4>멤버 + 준비물 추가 (관리자 전용)</h4>
-          <div class="row">
-            <input id="memberName" placeholder="멤버 이름" />
-            <input id="itemName" placeholder="준비물" />
-            <button id="addItem">추가</button>
-          </div>
+      <h3>모든 준비물</h3>
+      <ul id="allItems"></ul>
 
-          <h4>전체 데이터</h4>
-          <ul id="allData" class="list"></ul>
-
-          <div class="row small">
-            <button id="exportBtn">내보내기 (JSON)</button>
-            <label class="filebtn">불러오기
-              <input id="importFile" type="file" accept="application/json" />
-            </label>
-            <button id="clearBtn">데이터 초기화</button>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer class="foot">메시지: <span id="msg">준비물 관리 앱 (로컬 저장)</span></footer>
+      <button class="danger" onclick="clearAll()">모두 초기화</button>
+    </div>
   </div>
 
-<script>
-// ==== 설정 (하드코딩된 방장/부방장) ====
-// 변경하려면 이 파일(index.html)의 아래 배열을 편집하세요.
-const leaders = ['민서', '정원']; // <-- 여기에 방장/부방장 이름을 문자열로 추가
-// =====================================
+  <!-- ✅ Firebase 연결 -->
+  <script type="module">
+    // 방장, 부방장 하드코딩
+    const leaders = ["고정원", "김민서"];  // ← 여기를 너가 바꾸면 됨
 
-const STORAGE_KEY = 'group_items_v1';
-let data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-let isAdmin = false;
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
 
-// DOM
-const nameInput = document.getElementById('nameInput');
-const checkBtn = document.getElementById('checkBtn');
-const myList = document.getElementById('myList');
-const adminName = document.getElementById('adminName');
-const becomeAdmin = document.getElementById('becomeAdmin');
-const adminPanel = document.getElementById('adminPanel');
-const memberName = document.getElementById('memberName');
-const itemName = document.getElementById('itemName');
-const addItemBtn = document.getElementById('addItem');
-const allData = document.getElementById('allData');
-const msg = document.getElementById('msg');
-const exportBtn = document.getElementById('exportBtn');
-const importFile = document.getElementById('importFile');
-const clearBtn = document.getElementById('clearBtn');
+    // ✅ 이 부분은 네 Firebase 설정값으로 바꿔야 함const firebaseConfig = {
+    const firebaseConfig = {
+      apiKey: "AIzaSyA-U9ejJEiq2zt7oqJwqxxp1unknmIjQ4g",
+      authDomain: "school-edd16.firebaseapp.com",
+      databaseURL: "https://school-edd16-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "school-edd16",
+      storageBucket: "school-edd16.firebasestorage.app",
+      messagingSenderId: "53527232912",
+      appId: "1:53527232912:web:2ed62d9faf68a44a64b315"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const itemsRef = ref(db, "items");
 
-function save() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-  renderAll();
-}
+    const nameInput = document.getElementById("nameInput");
+    const result = document.getElementById("result");
+    const adminSection = document.getElementById("adminSection");
+    const allItemsList = document.getElementById("allItems");
 
-function renderAll() {
-  allData.innerHTML = '';
-  const keys = Object.keys(data);
-  if (keys.length === 0) {
-    allData.innerHTML = '<li class="muted">아직 추가된 멤버가 없습니다.</li>';
-    return;
-  }
-  keys.forEach(name => {
-    const li = document.createElement('li');
-    li.textContent = name + ' : ' + data[name].join(', ');
-    allData.appendChild(li);
-  });
-}
+    let items = {};
 
-function tryBecomeAdmin() {
-  const name = adminName.value.trim();
-  if (!name) return alert('이름을 입력하세요');
-  if (leaders.includes(name)) {
-    isAdmin = true;
-    adminPanel.setAttribute('aria-hidden', 'false');
-    adminPanel.classList.add('visible');
-    msg.textContent = name + '님, 관리자 모드 활성화';
-    renderAll();
-  } else {
-    alert('방장/부방장 목록에 없습니다');
-  }
-}
+    // 실시간 동기화
+    onValue(itemsRef, (snapshot) => {
+      items = snapshot.val() || {};
+      renderAllItems();
+    });
 
-function addItem() {
-  if (!isAdmin) return alert('관리자만 추가 가능합니다');
-  const name = memberName.value.trim();
-  const item = itemName.value.trim();
-  if (!name || !item) return alert('이름과 준비물을 입력하세요');
-  if (!data[name]) data[name] = [];
-  if (!data[name].includes(item)) data[name].push(item);
-  memberName.value = '';
-  itemName.value = '';
-  save();
-  msg.textContent = `${name}에게 ${item} 할당됨`;
-}
+    // 준비물 확인
+    window.checkItems = function () {
+      const name = nameInput.value.trim();
+      if (!name) {
+        result.innerHTML = "⚠️ 이름을 입력하세요";
+        return;
+      }
 
-function checkMember() {
-  const name = nameInput.value.trim();
-  myList.innerHTML = '';
-  if (!name) return alert('이름을 입력하세요');
-  // 입력한 이름이 리더에 포함되어 있으면 관리자 안내 메시지 표시
-  if (leaders.includes(name)) {
-    msg.textContent = name + '님은 방장/부방장입니다. 관리자 모드로 진입하려면 우측의 관리자 이름 입력 후 관리자 모드 버튼을 누르세요.';
-  }
-  const items = data[name] || [];
-  if (items.length === 0) {
-    myList.innerHTML = '<li class="muted">등록된 준비물이 없습니다.</li>';
-    return;
-  }
-  items.forEach(it => {
-    const li = document.createElement('li');
-    li.textContent = it;
-    myList.appendChild(li);
-  });
-}
+      if (leaders.includes(name)) {
+        adminSection.style.display = "block";
+        result.innerHTML = "👑 관리자 모드 활성화됨";
+      } else {
+        adminSection.style.display = "none";
 
-function exportData() {
-  const blob = new Blob([JSON.stringify({data}, null, 2)], {type: 'application/json'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = 'group-supplies.json'; a.click();
-  URL.revokeObjectURL(url);
-}
+        const userItems = items[name];
 
-function importData(e) {
-  const f = e.target.files?.[0];
-  if (!f) return;
-  const r = new FileReader();
-  r.onload = ()=>{
-    try {
-      const parsed = JSON.parse(r.result);
-      // 보안: 웹 UI에서 방장/부방장 변경 금지 — 파일의 leaders 필드가 있더라도 무시
-      data = parsed.data || parsed || {};
-      save();
-      msg.textContent = '데이터 불러오기 성공 (leaders는 코드 상의 값 유지)';
-    } catch(err) {
-      alert('파일 파싱 실패');
+        if (!userItems || userItems.length === 0) {
+          result.innerHTML = `${name}님의 준비물 없음 ✅`;
+          return;
+        }
+
+        result.innerHTML = `
+          <b>${name}님의 준비물:</b>
+          <ul>${userItems.map(i => `<li>${i}</li>`).join("")}</ul>
+        `;
+      }
+    };
+
+    // 준비물 추가
+    window.addItem = function () {
+      const member = document.getElementById("memberName").value.trim();
+      const item = document.getElementById("itemName").value.trim();
+
+      if (!member || !item) return alert("이름과 준비물을 입력하세요");
+
+      const updated = items[member] ? [...items[member], item] : [item];
+
+      set(ref(db, "items/" + member), updated);
+
+      document.getElementById("memberName").value = "";
+      document.getElementById("itemName").value = "";
+    };
+
+    // 전체 보기
+    function renderAllItems() {
+      allItemsList.innerHTML = "";
+
+      for (let name in items) {
+        const li = document.createElement("li");
+        li.textContent = `${name}: ${items[name].join(", ")}`;
+        allItemsList.appendChild(li);
+      }
     }
-  };
-  r.readAsText(f);
-}
 
-function clearAll(){
-  if (!confirm('정말 데이터 초기화?')) return;
-  data = {};
-  localStorage.removeItem(STORAGE_KEY);
-  renderAll();
-  msg.textContent = '데이터 초기화됨';
-}
-
-// 이벤트
-checkBtn.addEventListener('click', checkMember);
-becomeAdmin.addEventListener('click', tryBecomeAdmin);
-addItemBtn.addEventListener('click', addItem);
-exportBtn.addEventListener('click', exportData);
-importFile.addEventListener('change', importData);
-clearBtn.addEventListener('click', clearAll);
-
-// 초기 렌더
-renderAll();
-</script>
-
+    // 전체 삭제
+    window.clearAll = function () {
+      if (confirm("정말 모두 삭제하시겠습니까?")) {
+        remove(itemsRef);
+      }
+    };
+  </script>
 </body>
 </html>
