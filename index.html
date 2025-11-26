@@ -2,93 +2,76 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>모둠 준비물 확인기</title>
-<link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>모둠 준비물 확인기</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<div class="app">
-<header class="top">
-<h1>모둠 준비물 확인기</h1>
-<p class="subtitle">방장/부방장은 이름으로 인증 — 이름을 저장한 관리자만 준비물을 설정할 수 있어요.</p>
-</header>
+  <div class="app">
+    <header class="top">
+      <h1>모둠 준비물 확인기</h1>
+      <p class="subtitle">방장/부방장은 코드 안에 하드코딩되어 있습니다. (웹사이트에서 변경 불가)</p>
+    </header>
 
+    <main class="grid">
+      <section class="card">
+        <h2>내 준비물 확인</h2>
+        <div class="row">
+          <input id="nameInput" placeholder="이름을 입력하세요" />
+          <button id="checkBtn">확인</button>
+        </div>
+        <ul id="myList" class="list"></ul>
+      </section>
 
-<main class="grid">
-<section class="card">
-<h2>내 준비물 확인</h2>
-<div class="row">
-<input id="nameInput" placeholder="이름을 입력하세요" />
-<button id="checkBtn">확인</button>
-</div>
-<ul id="myList" class="list"></ul>
-</section>
+      <section class="card">
+        <h2>관리자 모드</h2>
+        <p class="muted">방장과 부방장은 코드 상의 <code>leaders</code> 배열에만 적혀 있습니다. 웹 UI로는 변경할 수 없습니다.</p>
 
+        <div class="row">
+          <input id="adminName" placeholder="방장/부방장 이름 입력" />
+          <button id="becomeAdmin">관리자 모드</button>
+        </div>
 
-<section class="card">
-<h2>방장 / 부방장 설정</h2>
-<p class="muted">방장과 부방장 이름을 쉼표로 구분해 입력하고 저장하세요. 예: 민수, 지윤</p>
-<div class="row">
-<input id="leaderNames" placeholder="예: 민수, 지윤" />
-<button id="saveLeaders">저장</button>
-</div>
+        <div id="adminPanel" class="admin-panel" aria-hidden="true">
+          <h4>멤버 + 준비물 추가 (관리자 전용)</h4>
+          <div class="row">
+            <input id="memberName" placeholder="멤버 이름" />
+            <input id="itemName" placeholder="준비물" />
+            <button id="addItem">추가</button>
+          </div>
 
+          <h4>전체 데이터</h4>
+          <ul id="allData" class="list"></ul>
 
-<hr />
+          <div class="row small">
+            <button id="exportBtn">내보내기 (JSON)</button>
+            <label class="filebtn">불러오기
+              <input id="importFile" type="file" accept="application/json" />
+            </label>
+            <button id="clearBtn">데이터 초기화</button>
+          </div>
+        </div>
+      </section>
+    </main>
 
-
-<h3>관리자 모드 (방장/부방장 이름으로 확인)</h3>
-<div class="row">
-<input id="adminName" placeholder="방장/부방장 이름 입력" />
-<button id="becomeAdmin">관리자 모드</button>
-</div>
-
-
-<div id="adminPanel" class="admin-panel" aria-hidden="true">
-<h4>멤버 + 준비물 추가 (관리자 전용)</h4>
-<div class="row">
-<input id="memberName" placeholder="멤버 이름" />
-<input id="itemName" placeholder="준비물" />
-<button id="addItem">추가</button>
-</div>
-
-
-<h4>전체 데이터</h4>
-<ul id="allData" class="list"></ul>
-
-
-<div class="row small">
-<button id="exportBtn">내보내기 (JSON)</button>
-<label class="filebtn">불러오기
-<input id="importFile" type="file" accept="application/json" />
-</label>
-<button id="clearBtn">데이터 초기화</button>
-</div>
-</div>
-</section>
-</main>
-
-
-<footer class="foot">메시지: <span id="msg">준비물 관리 앱 (로컬 저장)</span></footer>
-</div>
-
+    <footer class="foot">메시지: <span id="msg">준비물 관리 앱 (로컬 저장)</span></footer>
+  </div>
 
 <script>
-// 간단한 로컬 저장 앱 (index.html + style.css)
-const STORAGE_KEY = 'group_items_v1';
-const LEADERS_KEY = 'group_leaders_v1';
-let data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-let leaders = JSON.parse(localStorage.getItem(LEADERS_KEY) || '[]');
-let isAdmin = false;
+// ==== 설정 (하드코딩된 방장/부방장) ====
+// 변경하려면 이 파일(index.html)의 아래 배열을 편집하세요.
+const leaders = ['민서', '정원']; // <-- 여기에 방장/부방장 이름을 문자열로 추가
+// =====================================
 
+const STORAGE_KEY = 'group_items_v1';
+let data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+let isAdmin = false;
 
 // DOM
 const nameInput = document.getElementById('nameInput');
 const checkBtn = document.getElementById('checkBtn');
 const myList = document.getElementById('myList');
-const leaderNames = document.getElementById('leaderNames');
-const saveLeaders = document.getElementById('saveLeaders');
 const adminName = document.getElementById('adminName');
 const becomeAdmin = document.getElementById('becomeAdmin');
 const adminPanel = document.getElementById('adminPanel');
@@ -101,45 +84,117 @@ const exportBtn = document.getElementById('exportBtn');
 const importFile = document.getElementById('importFile');
 const clearBtn = document.getElementById('clearBtn');
 
-
 function save() {
-localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-localStorage.setItem(LEADERS_KEY, JSON.stringify(leaders));
-renderAll();
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  renderAll();
 }
-
 
 function renderAll() {
-allData.innerHTML = '';
-const keys = Object.keys(data);
-if (keys.length === 0) {
-allData.innerHTML = '<li class="muted">아직 추가된 멤버가 없습니다.</li>';
-return;
+  allData.innerHTML = '';
+  const keys = Object.keys(data);
+  if (keys.length === 0) {
+    allData.innerHTML = '<li class="muted">아직 추가된 멤버가 없습니다.</li>';
+    return;
+  }
+  keys.forEach(name => {
+    const li = document.createElement('li');
+    li.textContent = name + ' : ' + data[name].join(', ');
+    allData.appendChild(li);
+  });
 }
-keys.forEach(name => {
-const li = document.createElement('li');
-li.textContent = name + ' : ' + data[name].join(', ');
-allData.appendChild(li);
-});
-}
-
-
-function setLeaders() {
-leaders = leaderNames.value.split(',').map(v=>v.trim()).filter(Boolean);
-localStorage.setItem(LEADERS_KEY, JSON.stringify(leaders));
-msg.textContent = '방장/부방장 저장됨: ' + leaders.join(', ');
-}
-
 
 function tryBecomeAdmin() {
-const name = adminName.value.trim();
-if (!name) return alert('이름을 입력하세요');
-if (leaders.includes(name)) {
-isAdmin = true;
-adminPanel.setAttribute('aria-hidden', 'false');
+  const name = adminName.value.trim();
+  if (!name) return alert('이름을 입력하세요');
+  if (leaders.includes(name)) {
+    isAdmin = true;
+    adminPanel.setAttribute('aria-hidden', 'false');
+    adminPanel.classList.add('visible');
+    msg.textContent = name + '님, 관리자 모드 활성화';
+    renderAll();
+  } else {
+    alert('방장/부방장 목록에 없습니다');
+  }
+}
+
+function addItem() {
+  if (!isAdmin) return alert('관리자만 추가 가능합니다');
+  const name = memberName.value.trim();
+  const item = itemName.value.trim();
+  if (!name || !item) return alert('이름과 준비물을 입력하세요');
+  if (!data[name]) data[name] = [];
+  if (!data[name].includes(item)) data[name].push(item);
+  memberName.value = '';
+  itemName.value = '';
+  save();
+  msg.textContent = `${name}에게 ${item} 할당됨`;
+}
+
+function checkMember() {
+  const name = nameInput.value.trim();
+  myList.innerHTML = '';
+  if (!name) return alert('이름을 입력하세요');
+  // 입력한 이름이 리더에 포함되어 있으면 관리자 안내 메시지 표시
+  if (leaders.includes(name)) {
+    msg.textContent = name + '님은 방장/부방장입니다. 관리자 모드로 진입하려면 우측의 관리자 이름 입력 후 관리자 모드 버튼을 누르세요.';
+  }
+  const items = data[name] || [];
+  if (items.length === 0) {
+    myList.innerHTML = '<li class="muted">등록된 준비물이 없습니다.</li>';
+    return;
+  }
+  items.forEach(it => {
+    const li = document.createElement('li');
+    li.textContent = it;
+    myList.appendChild(li);
+  });
+}
+
+function exportData() {
+  const blob = new Blob([JSON.stringify({data}, null, 2)], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'group-supplies.json'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importData(e) {
+  const f = e.target.files?.[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = ()=>{
+    try {
+      const parsed = JSON.parse(r.result);
+      // 보안: 웹 UI에서 방장/부방장 변경 금지 — 파일의 leaders 필드가 있더라도 무시
+      data = parsed.data || parsed || {};
+      save();
+      msg.textContent = '데이터 불러오기 성공 (leaders는 코드 상의 값 유지)';
+    } catch(err) {
+      alert('파일 파싱 실패');
+    }
+  };
+  r.readAsText(f);
+}
+
+function clearAll(){
+  if (!confirm('정말 데이터 초기화?')) return;
+  data = {};
+  localStorage.removeItem(STORAGE_KEY);
+  renderAll();
+  msg.textContent = '데이터 초기화됨';
+}
+
+// 이벤트
+checkBtn.addEventListener('click', checkMember);
+becomeAdmin.addEventListener('click', tryBecomeAdmin);
+addItemBtn.addEventListener('click', addItem);
+exportBtn.addEventListener('click', exportData);
+importFile.addEventListener('change', importData);
+clearBtn.addEventListener('click', clearAll);
+
+// 초기 렌더
 renderAll();
 </script>
-
 
 </body>
 </html>
