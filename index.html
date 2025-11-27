@@ -29,7 +29,7 @@
       <h3>모든 준비물</h3>
       <ul id="allItems"></ul>
 
-      <button class="danger" onclick="clearAll()">모두 초기화</button>
+      <button class="danger" onclick="clearAll()" class="rp-btn rp-btn--accent">모두 초기화</button>
     </div>
   </div>
 
@@ -157,8 +157,8 @@
 
         li.innerHTML = `
           <b>${name}</b>: ${list}
-          🔧 <button onclick="editItems('${name}')">수정</button>
-          ❌ <button onclick="deleteMember('${name}')" style="color:red;">삭제</button>
+          🔧 <button onclick="editItems('${name}')" class="rp-btn rp-btn--accent">수정</button>
+          ❌ <button onclick="deleteMember('${name}')" class="rp-btn rp-btn--accent">삭제</button>
         `;
         allItemsList.appendChild(li);
       }
