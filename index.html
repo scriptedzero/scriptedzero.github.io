@@ -12,8 +12,8 @@
     <!-- 이름 입력 -->
     <div class="card">
       <h2>이름 입력</h2>
-      <input type="text" id="nameInput" placeholder="이름을 입력하세요" />
-      <button onclick="checkItems()">확인</button>
+      <input type="text" id="nameInput" placeholder="이름을 입력하세요" class="rp-input" />
+      <button onclick="checkItems()" class="rp-btn rp-btn--accent">확인</button>
       <div id="result"></div>
     </div>
 
@@ -22,14 +22,14 @@
       <h2>👑 관리자 (방장 / 부방장)</h2>
 
       <h3>준비물 추가</h3>
-      <input type="text" id="memberName" placeholder="멤버 이름" />
-      <input type="text" id="itemName" placeholder="준비물" />
-      <button onclick="addItem()">추가</button>
+      <input type="text" id="memberName" placeholder="멤버 이름" class="rp-input" />
+      <input type="text" id="itemName" placeholder="준비물" class="rp-input" />
+      <button onclick="addItem()" class="rp-btn rp-btn--accent">추가</button>
 
       <h3>모든 준비물</h3>
       <ul id="allItems"></ul>
 
-      <button class="danger" onclick="clearAll()">모두 초기화</button>
+      <button class="danger" onclick="clearAll()" class="rp-btn rp-btn--accent">모두 초기화</button>
     </div>
   </div>
 
