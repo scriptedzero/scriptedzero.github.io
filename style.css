@@ -80,11 +80,11 @@ box-shadow: 0 6px 18px rgba(2,2,6,0.6);
 }
 
 /* 버튼 - accent */
+/* accent 버튼 — 글자색만 수정 */
 .rp-btn--accent {
   background: linear-gradient(180deg, rgba(196,167,231,0.14), rgba(156,207,216,0.06));
-  color: #9aa0b4;
+  color: #e6e1ff; /* ⭐ 기존 #191724 대신 밝은 색 */
   border: 1px solid rgba(156,207,216,0.18);
-
 }
 
 /* ghost */
