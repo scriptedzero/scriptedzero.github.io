@@ -86,6 +86,12 @@ box-shadow: 0 6px 18px rgba(2,2,6,0.6);
   color: #e6e1ff; /* ⭐ 기존 #191724 대신 밝은 색 */
   border: 1px solid rgba(156,207,216,0.18);
 }
+.rp-btn--accent:hover {
+  color: #ffffff;
+  box-shadow:
+    0 8px 20px rgba(0,0,0,0.5),
+    0 0 20px rgba(196,167,231,0.25);
+}
 
 /* ghost */
 .rp-btn--ghost {
