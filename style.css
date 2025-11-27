@@ -35,3 +35,119 @@ background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01
 border-radius:14px;padding:18px;border:1px solid rgba(255,255,255,0.03);
 box-shadow: 0 6px 18px rgba(2,2,6,0.6);
 }
+
+
+
+/* 공통 */
+.rp-btn, .rp-input {
+  font-family: inherit;
+  transition: 180ms cubic-bezier(.2,.9,.3,1);
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+  color-scheme: dark;
+}
+
+/* 버튼 (기본) */
+.rp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .5rem 1rem;
+  font-weight: 600;
+  font-size: .95rem;
+  border-radius: 8px;
+
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
+  color: #e6e1ff;
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.02) inset;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+}
+
+.rp-btn:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 20px rgba(0,0,0,0.5),
+    0 0 20px rgba(156,207,216,0.18);
+}
+.rp-btn:active { transform: translateY(0); }
+.rp-btn:focus {
+  box-shadow:
+    0 0 0 4px rgba(196,167,231,0.12),
+    0 4px 24px rgba(0,0,0,0.6);
+}
+
+/* 버튼 - accent */
+.rp-btn--accent {
+  background: linear-gradient(180deg, rgba(196,167,231,0.14), rgba(156,207,216,0.06));
+  color: #191724;
+  border: 1px solid rgba(156,207,216,0.18);
+}
+
+/* ghost */
+.rp-btn--ghost {
+  background: transparent;
+  color: #e6e1ff;
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: none;
+}
+.rp-btn--ghost:hover {
+  background: rgba(255,255,255,0.02);
+}
+
+/* 버튼 크기 */
+.rp-btn--sm { padding: .3rem .6rem; font-size:.85rem; border-radius:6px; }
+.rp-btn--lg { padding: .75rem 1.25rem; font-size:1rem; border-radius:10px; }
+
+/* 입력 */
+.rp-input {
+  width: 100%;
+  max-width: 480px;
+  padding: .6rem .9rem;
+  font-size: .95rem;
+  border-radius: 6px;
+
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.06));
+  color: #e6e1ff;
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.01) inset;
+}
+
+.rp-input::placeholder {
+  color: #9aa0b4;
+  font-weight: 500;
+}
+
+.rp-input:focus {
+  border-color: rgba(156,207,216,0.26);
+  box-shadow:
+    0 6px 20px rgba(0,0,0,0.7),
+    0 0 18px rgba(156,207,216,0.12);
+}
+
+/* 에러 */
+.rp-input--error {
+  border-color: rgba(255,123,138,0.9);
+  box-shadow:
+    0 6px 20px rgba(0,0,0,0.7),
+    0 0 12px rgba(255,123,138,0.12);
+}
+
+/* disabled */
+.rp-btn:disabled,
+.rp-input:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* 아이콘 (선택) */
+.rp-btn .rp-icon {
+  width: 1em;
+  height: 1em;
+  opacity: .95;
+  transform: translateY(1px);
+}
