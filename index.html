@@ -2,36 +2,13 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>모둠 준비물 시스템</title>
+  <title>지원 종료됨</title>
   <link href="style.css" rel="stylesheet" />
 </head>
 <body>
   <div class="container">
-    <h1>📦 모둠 준비물 확인 시스템</h1>
+    <h1>이 페이지는 지원 종료되었습니다</h1>
 
-    <!-- 이름 입력 -->
-    <div class="card">
-      <h2>이름 입력</h2>
-      <input type="text" id="nameInput" placeholder="이름을 입력하세요" class="rp-input" />
-      <button onclick="checkItems()" class="rp-btn rp-btn--accent">확인</button>
-      <div id="result"></div>
-    </div>
-
-    <!-- 관리자 영역 -->
-    <div class="card" id="adminSection" style="display:none;">
-      <h2>👑 관리자 (방장 / 부방장)</h2>
-
-      <h3>준비물 추가</h3>
-      <input type="text" id="memberName" placeholder="멤버 이름" class="rp-input" />
-      <input type="text" id="itemName" placeholder="준비물" class="rp-input" />
-      <button onclick="addItem()" class="rp-btn rp-btn--accent">추가</button>
-
-      <h3>모든 준비물</h3>
-      <ul id="allItems"></ul>
-
-      <button class="rp-btn rp-btn--accent danger" onclick="clearAll()">모두 초기화</button>
-
-    </div>
   </div>
 
   <!-- Firebase -->
