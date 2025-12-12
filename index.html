@@ -1,153 +1,43 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <title>지원 종료됨</title>
-  <link href="style.css" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>한글 모스 암호기 (Hangul Cipher)</title>
+    <link href="https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/static/woff2/SUIT.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>이 페이지는 지원 종료되었습니다</h1>
 
-  </div>
+    <div class="container">
+        <header>
+            <h1>🔒 Hangul Cipher</h1>
+            <p>한글 모스 부호 변환기</p>
+        </header>
 
-  <!-- Firebase -->
-  <script type="module">
-    // 방장, 부방장
-    const leaders = ["고정원", "김민서"];
+        <main>
+            <div class="card input-section">
+                <label for="inputText">입력 (Input)</label>
+                <textarea id="inputText" placeholder="여기에 텍스트를 입력하세요... (예: 안녕하세요!)"></textarea>
+            </div>
 
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-    import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+            <div class="controls">
+                <button id="btnEncrypt" class="btn primary">⬇️ 암호화 (Encrypt)</button>
+                <button id="btnDecrypt" class="btn secondary">⬆️ 복호화 (Decrypt)</button>
+            </div>
 
-    // 🔥 Firebase 설정
-    const firebaseConfig = {
-      apiKey: "AIzaSyA-U9ejJEiq2zt7oqJwqxxp1unknmIjQ4g",
-      authDomain: "school-edd16.firebaseapp.com",
-      databaseURL: "https://school-edd16-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "school-edd16",
-      storageBucket: "school-edd16.firebasestorage.app",
-      messagingSenderId: "53527232912",
-      appId: "1:53527232912:web:2ed62d9faf68a44a64b315"
-    };
+            <div class="card output-section">
+                <label for="outputText">결과 (Result)</label>
+                <textarea id="outputText" readonly placeholder="결과가 여기에 표시됩니다."></textarea>
+                <button id="btnCopy" class="btn-copy">📋 복사하기</button>
+            </div>
+        </main>
 
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    const itemsRef = ref(db, "items");
+        <footer>
+            <p>Based on Custom Morse Logic</p>
+        </footer>
+    </div>
 
-    const nameInput = document.getElementById("nameInput");
-    const result = document.getElementById("result");
-    const adminSection = document.getElementById("adminSection");
-    const allItemsList = document.getElementById("allItems");
-
-    let items = {};
-
-    // 🔄 실시간 데이터 업데이트
-    onValue(itemsRef, (snapshot) => {
-      items = snapshot.val() || {};
-      renderAllItems();
-    });
-
-    // ⭐ 준비물 확인
-    window.checkItems = function () {
-      const name = nameInput.value.trim();
-      if (!name) {
-        result.innerHTML = "⚠️ 이름을 입력하세요";
-        return;
-      }
-
-      if (leaders.includes(name)) {
-        adminSection.style.display = "block";
-        result.innerHTML = "👑 관리자 모드 활성화됨";
-      } else {
-        adminSection.style.display = "none";
-
-        const userItems = items[name];
-
-        if (!userItems || userItems.length === 0) {
-          result.innerHTML = `${name}님의 준비물 없음 ✅`;
-          return;
-        }
-
-        result.innerHTML = `
-          <b>${name}님의 준비물:</b>
-          <ul>${userItems.map(i => `<li>${i}</li>`).join("")}</ul>
-        `;
-      }
-    };
-
-    // ⭐ 준비물 추가
-    window.addItem = function () {
-      const member = document.getElementById("memberName").value.trim();
-      const item = document.getElementById("itemName").value.trim();
-
-      if (!member || !item) return alert("이름과 준비물을 입력하세요");
-
-      const updated = items[member] ? [...items[member], item] : [item];
-
-      set(ref(db, "items/" + member), updated);
-
-      document.getElementById("memberName").value = "";
-      document.getElementById("itemName").value = "";
-    };
-
-
-    /* ------------------------------------------------------------------
-     🆕 기능 1) 멤버 삭제
-     → 특정 이름 전체 데이터 삭제
-    ------------------------------------------------------------------ */
-    window.deleteMember = function(name) {
-      if (confirm(`${name}의 모든 준비물을 삭제할까요?`)) {
-        remove(ref(db, "items/" + name));
-      }
-    };
-
-
-    /* ------------------------------------------------------------------
-     🆕 기능 2) 준비물 수정
-     → 기존 리스트를 입력창으로 바꾼 뒤 저장
-    ------------------------------------------------------------------ */
-    window.editItems = function(name) {
-      const current = items[name] || [];
-      
-      const newList = prompt(
-        `🔧 ${name}의 준비물을 수정 (쉼표로 구분)\n\n현재: ${current.join(", ")}`,
-        current.join(", ")
-      );
-
-      if (newList === null) return; // 취소
-
-      const parsed = newList
-        .split(",")
-        .map(v => v.trim())
-        .filter(v => v !== "");
-
-      set(ref(db, "items/" + name), parsed);
-    };
-
-
-    // ⭐ 관리자 전체 보기 (UI 렌더)
-    function renderAllItems() {
-      allItemsList.innerHTML = "";
-
-      for (let name in items) {
-        const li = document.createElement("li");
-        const list = items[name].join(", ");
-
-        li.innerHTML = `
-          <b>${name}</b>: ${list}
-          🔧 <button onclick="editItems('${name}')" class="rp-btn rp-btn--accent">수정</button>
-          ❌ <button onclick="deleteMember('${name}')" class="rp-btn rp-btn--accent">삭제</button>
-        `;
-        allItemsList.appendChild(li);
-      }
-    }
-
-    // 전체 삭제
-    window.clearAll = function () {
-      if (confirm("정말 모두 삭제하시겠습니까?")) {
-        remove(itemsRef);
-      }
-    };
-  </script>
+    <script src="script.js"></script>
 </body>
 </html>
