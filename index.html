@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>한글 모스 암호기 (Hangul Cipher)</title>
-    <link href="https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/static/woff2/SUIT.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -22,19 +21,19 @@
             </div>
 
             <div class="controls">
-                <button id="btnEncrypt" class="btn primary">⬇️ 암호화 (Encrypt)</button>
-                <button id="btnDecrypt" class="btn secondary">⬆️ 복호화 (Decrypt)</button>
+                <button id="btnEncrypt" class="btn primary" onclick="handleEncrypt()">⬇️ 암호화 (Encrypt)</button>
+                <button id="btnDecrypt" class="btn secondary" onclick="handleDecrypt()">⬆️ 복호화 (Decrypt)</button>
             </div>
 
             <div class="card output-section">
                 <label for="outputText">결과 (Result)</label>
                 <textarea id="outputText" readonly placeholder="결과가 여기에 표시됩니다."></textarea>
-                <button id="btnCopy" class="btn-copy">📋 복사하기</button>
+                <button id="btnCopy" class="btn-copy" onclick="handleCopy()">📋 복사하기</button>
             </div>
         </main>
 
         <footer>
-            <p>Based on Custom Morse Logic</p>
+            <p>Based on Custom Morse Logic | Font by SUIT</p>
         </footer>
     </div>
 
