@@ -237,5 +237,14 @@ function handleCopy() {
     }
 }
 
+function handleDoc() {
+  const a = document.createElement("a");
+  a.href = "https://scriptedzero.github.io/docs/guide.pdf";
+  a.download = "guide.pdf";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);1
+}
+
 // 5. 초기화 함수 실행
 window.addEventListener('DOMContentLoaded', init);
