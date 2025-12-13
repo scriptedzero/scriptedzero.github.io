@@ -261,7 +261,7 @@ window.addEventListener('DOMContentLoaded', init);
 
 
 const VALID_HASH =
-  "fd98736bfb91236129ee1737285776ecf3298f23d5af89e2abc81cf301b788f0";
+  "21a0293abb4bfa0c90772ec4bb858f7a53c7ffbc91a063bd1cf71c9053e4137b";
 
 async function sha256(text) {
   const encoder = new TextEncoder();
@@ -271,10 +271,15 @@ async function sha256(text) {
     .map(b => b.toString(16).padStart(2, "0"))
     .join("");
 }
-
 async function checkCode() {
-  const input = document.getElementById("inputText").value.trim();
   const error = document.getElementById("error");
+
+  // 🔥 핵심 수정
+  const input = document
+    .getElementById("inputText")
+    .value
+    .trim()
+    .replace(/\s+/g, ""); // 모든 공백 제거
 
   if (!input) {
     error.textContent = "코드를 입력하세요.";
@@ -287,5 +292,15 @@ async function checkCode() {
     window.location.href = "fiverf.html";
   } else {
     error.textContent = "잘못된 접근 코드입니다.";
+  }
+}
+
+
+  const hash = await sha256(input);
+
+  if (hash === VALID_HASH) {
+    window.location.href = "fiverf.html";
+  } else {
+    error.textContent = "잘못된 접근 코드입니다.";f
   }
 }
