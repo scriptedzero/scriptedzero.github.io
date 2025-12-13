@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiverf</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>🔒 Fiverf</h1>
+            <p>5-4 Cipher</p>
+        </header>
+
+        <main>
+
+            <button onclick="handleDoc()" class="btn download">해독법 다운로드(pdf)</button>
+
+            <div class="card input-section">
+                <label for="inputText">입력 (Input)</label>
+                <textarea id="inputText" placeholder="여기에 텍스트를 입력하세요... (예: 안녕하세요!)"></textarea>
+            </div>
+
+            <div class="controls">
+                <button id="btnEncrypt" class="btn primary" onclick="handleEncrypt()">암호화 (Encrypt)</button>
+                <button id="btnDecrypt" class="btn secondary" onclick="handleDecrypt()">복호화 (Decrypt)</button>
+            </div>
+
+            <div class="card output-section">
+                <label for="outputText">결과 (Result)</label>
+                <textarea id="outputText" readonly placeholder="결과가 여기에 표시됩니다."></textarea>
+                <button id="btnCopy" class="btn-copy" onclick="handleCopy()">복사하기</button>
+            </div>
+        </main>
+
+        <footer>
+            <p>Based on Custom Morse Logic | Made by 5401</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
