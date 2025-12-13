@@ -3,33 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fiverf</title>
+  <title>Fiverf Gate</title>
 
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
-    <header>
-      <h1>🔒 Fiverf</h1>
-      <p>5-4 Cipher</p>
-    </header>
+    <h1>🔒 Fiverf</h1>
+    <p>Access Gate</p>
 
-    <main>
-      <div class="card input-section">
-        <label for="inputText">접근 코드 입력</label>
-        <textarea
-          id="inputText"
-          placeholder="Access Code"
-        ></textarea>
+    <input
+      id="inputText"
+      type="password"
+      placeholder="Access Code"
+      autocomplete="off"
+    >
 
-        <button id="btnEncrypt" onclick="checkCode()" class="btn primary">입장</button>
-        <p id="error" class="error"></p>
-      </div>
-    </main>
-
-    <footer>
-      <p>Based on Custom Morse Logic | Made by 5401</p>
-    </footer>
+    <button id="btnEnter" onclick="checkCode()">입장</button>
+    <p id="error" class="error"></p>
   </div>
 
   <script src="script.js"></script>

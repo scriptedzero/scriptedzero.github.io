@@ -258,49 +258,56 @@ window.addEventListener('DOMContentLoaded', init);
 ///////////////  fiverf.html  /////////////////
 
 
-
-
+// ===============================
+// 개발자가 정하는 코드 (여기만 바꾸면 됨)
+// 실제 코드: FIVERF-5401
+// ===============================
 const VALID_HASH =
-  "21a0293abb4bfa0c90772ec4bb858f7a53c7ffbc91a063bd1cf71c9053e4137b";
+  "fd98736bfb91236129ee1737285776ecf3298f23d5af89e2abc81cf301b788f0";
+
+// ===============================
 
 async function sha256(text) {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(text);
+  const data = new TextEncoder().encode(text);
   const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-  return Array.from(new Uint8Array(hashBuffer))
+  return [...new Uint8Array(hashBuffer)]
     .map(b => b.toString(16).padStart(2, "0"))
     .join("");
 }
+
 async function checkCode() {
-  const error = document.getElementById("error");
+  const inputEl = document.getElementById("inputText");
+  const errorEl = document.getElementById("error");
 
-  // 🔥 핵심 수정
-  const input = document
-    .getElementById("inputText")
-    .value
-    .trim()
-    .replace(/\s+/g, ""); // 모든 공백 제거
-
-  if (!input) {
-    error.textContent = "코드를 입력하세요.";
+  if (!inputEl) {
+    alert("input element missing");
     return;
   }
 
-  const hash = await sha256(input);
+  // 🔒 문자열 정규화 (이게 핵심)
+  const normalized = inputEl.value
+    .normalize("NFKC")
+    .trim()
+    .replace(/\s+/g, "");
+
+  if (!normalized) {
+    errorEl.textContent = "코드를 입력하세요.";
+    return;
+  }
+
+  const hash = await sha256(normalized);
+
+  // === 디버그용 (문제 생기면 콘솔 확인)
+  console.log("INPUT:", JSON.stringify(normalized));
+  console.log("HASH :", hash);
+  console.log("VALID:", VALID_HASH);
 
   if (hash === VALID_HASH) {
+    // 통과 플래그 저장
+    sessionStorage.setItem("fiverf_access", "ok");
     window.location.href = "fiverf.html";
   } else {
-    error.textContent = "잘못된 접근 코드입니다.";
+    errorEl.textContent = "잘못된 접근 코드입니다.";
   }
 }
 
-
-  const hash = await sha256(input);
-
-  if (hash === VALID_HASH) {
-    window.location.href = "fiverf.html";
-  } else {
-    error.textContent = "잘못된 접근 코드입니다.";f
-  }
-}
