@@ -1,3 +1,7 @@
+
+///////////////  fiverf.html  /////////////////
+
+
 // 전역 변수 (이전과 동일)
 let CIPHER_DICT = null;
 let DECODE_MAP = null;
@@ -248,3 +252,40 @@ function handleDoc() {
 
 // 5. 초기화 함수 실행
 window.addEventListener('DOMContentLoaded', init);
+
+
+
+///////////////  fiverf.html  /////////////////
+
+
+
+
+const VALID_HASH =
+  "7a3d45f7b4c9a1f0f3d5fbe8d8e9b13c9b0b8b63f93a9d2c9c9f5b6e1a5b6f52";
+
+async function sha256(text) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(text);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  return Array.from(new Uint8Array(hashBuffer))
+    .map(b => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+async function checkCode() {
+  const input = document.getElementById("inputText").value.trim();
+  const error = document.getElementById("error");
+
+  if (!input) {
+    error.textContent = "코드를 입력하세요.";
+    return;
+  }
+
+  const hash = await sha256(input);
+
+  if (hash === VALID_HASH) {
+    window.location.href = "fiverf.html";
+  } else {
+    error.textContent = "잘못된 접근 코드입니다.";
+  }
+}
