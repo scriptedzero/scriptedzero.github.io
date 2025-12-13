@@ -46,5 +46,11 @@
     </div>
 
     <script src="script.js"></script>
+      <script>
+    // index.html 통과 안 했으면 돌려보냄
+    if (sessionStorage.getItem("fiverf_access") !== "ok") {
+      window.location.href = "index.html";
+    }
+  </script>
 </body>
 </html>
