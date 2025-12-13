@@ -261,7 +261,7 @@ window.addEventListener('DOMContentLoaded', init);
 
 
 const VALID_HASH =
-  "7a3d45f7b4c9a1f0f3d5fbe8d8e9b13c9b0b8b63f93a9d2c9c9f5b6e1a5b6f52";
+  "fd98736bfb91236129ee1737285776ecf3298f23d5af89e2abc81cf301b788f0";
 
 async function sha256(text) {
   const encoder = new TextEncoder();
