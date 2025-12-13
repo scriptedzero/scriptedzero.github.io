@@ -10,16 +10,14 @@
 <body>
   <div class="container">
     <h1>🔒 Fiverf</h1>
-    <p>Access Gate</p>
-
+    <label for="accessCode">접근 코드</label>
     <input
-      id="inputText"
+      id="accessCode"
+      class="input"
       type="password"
       placeholder="Access Code"
-      autocomplete="off"
-    >
-
-    <button id="btnEnter" onclick="checkCode()">입장</button>
+    />
+    <button id="btnEnter" onclick="checkCode()" class="btn primary">입장</button>
     <p id="error" class="error"></p>
   </div>
 

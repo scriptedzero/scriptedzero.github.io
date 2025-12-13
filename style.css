@@ -228,3 +228,28 @@ footer {
     color: #555;
     margin-top: 20px;
 }
+
+/* ===== input 스타일 (textarea와 통일) ===== */
+.input {
+    width: 100%;
+    height: 48px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 2px solid transparent;
+    border-radius: 8px;
+    color: var(--text-color);
+    padding: 0 15px;
+    font-family: var(--font-main);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.input::placeholder {
+    color: var(--sub-text);
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--highlight-color);
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
