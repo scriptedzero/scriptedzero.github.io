@@ -250,6 +250,11 @@ function handleDoc() {
   document.body.removeChild(a);1
 }
 
+
+function handleTable() {
+    window.location.href = "table.html";
+}
+
 // 5. 초기화 함수 실행
 window.addEventListener('DOMContentLoaded', init);
 

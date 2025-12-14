@@ -1,0 +1,241 @@
+<style>
+/* Rose Pine Moon 컬러 팔레트 */
+:root {
+    --r-base: #232136;
+    --r-surface: #2a273f;
+    --r-highlight: #393552;
+    --r-text: #e0def4;
+    --r-muted: #908caa;
+    --r-rose: #eb6f92;
+    --r-pine: #3e8f80;
+    --r-foam: #9ccfd8;
+    --r-iris: #c4a7e7;
+}
+
+/* 기존 스타일 유지 및 테마 오버라이드 */
+.cipher-table-container {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: var(--r-surface); /* Rose Pine Surface */
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--r-highlight);
+}
+
+.cipher-table-container h2 {
+    color: var(--r-rose);
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.cipher-table {
+    width: 100%;
+    border-collapse: separate; /* border-radius 적용을 위해 */
+    border-spacing: 0;
+    font-size: 0.95rem;
+}
+
+.cipher-table th, .cipher-table td {
+    padding: 12px 15px;
+    text-align: left;
+    color: var(--r-text);
+    border-bottom: 1px solid var(--r-highlight);
+}
+
+.cipher-table th {
+    background-color: var(--r-highlight);
+    color: var(--r-foam);
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.cipher-table tr:hover td {
+    background-color: var(--r-highlight); /* 호버 효과 */
+}
+
+/* 첫 번째 열 (한글/자모) 강조 */
+.cipher-table td:nth-child(1) {
+    color: var(--r-iris);
+    font-weight: 500;
+    width: 30%;
+}
+
+/* 두 번째 열 (암호 코드) 글꼴 고정 */
+.cipher-table td:nth-child(2) {
+    font-family: monospace, var(--font-main);
+    color: var(--r-pine);
+    word-break: break-all;
+}
+
+/* 마지막 행의 border 제거 */
+.cipher-table tr:last-child td {
+    border-bottom: none;
+}
+</style>
+
+<div class="cipher-table-container">
+    <h2>Fiverf 암호 규칙 (Cipher Mapping)</h2>
+    
+    <table class="cipher-table">
+        <thead>
+            <tr>
+                <th>한글/자모 (Jamo)</th>
+                <th>암호 코드 (Cipher Code)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td colspan="2" style="background-color: var(--r-highlight); color: var(--r-rose); font-weight: 600;">단어 및 글자 구분자</td></tr>
+            <tr><td>글자 간 구분</td><td>(공백)</td></tr>
+            <tr><td>단어 간 구분</td><td>(공백 2칸)</td></tr>
+            
+<style>
+/* Rose Pine Moon 컬러 팔레트 */
+:root {
+    --r-base: #232136;
+    --r-surface: #2a273f;
+    --r-highlight: #393552;
+    --r-text: #e0def4;
+    --r-muted: #908caa;
+    --r-rose: #eb6f92;
+    --r-pine: #3e8f80;
+    --r-foam: #9ccfd8;
+    --r-iris: #c4a7e7;
+    /* 기존 CSS 변수와 충돌하지 않도록 조정 */
+    --accent-color: var(--r-pine);
+    --highlight-color: var(--r-rose);
+    --text-color: var(--r-text);
+}
+
+/* 기존 스타일 유지 및 테마 오버라이드 */
+.cipher-table-container {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: var(--r-surface); /* Rose Pine Surface */
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--r-highlight);
+}
+
+.cipher-table-container h2 {
+    color: var(--r-rose);
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.cipher-table {
+    width: 100%;
+    border-collapse: separate; /* border-radius 적용을 위해 */
+    border-spacing: 0;
+    font-size: 0.95rem;
+}
+
+.cipher-table th, .cipher-table td {
+    padding: 12px 15px;
+    text-align: left;
+    color: var(--r-text);
+    border-bottom: 1px solid var(--r-highlight);
+}
+
+.cipher-table th {
+    background-color: var(--r-highlight);
+    color: var(--r-foam);
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.cipher-table tr:hover td {
+    background-color: var(--r-highlight); /* 호버 효과 */
+}
+
+/* 첫 번째 열 (한글/자모) 강조 */
+.cipher-table td:nth-child(1) {
+    color: var(--r-iris);
+    font-weight: 500;
+    width: 30%;
+}
+
+/* 두 번째 열 (암호 코드) 글꼴 고정 */
+.cipher-table td:nth-child(2) {
+    font-family: monospace, var(--font-main);
+    color: var(--r-pine);
+    word-break: break-all;
+}
+
+/* 마지막 행의 border 제거 */
+.cipher-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* 돌아가기 버튼 스타일 */
+.btn-back {
+    display: block;
+    width: fit-content;
+    margin: 0 auto 20px auto;
+    padding: 10px 20px;
+    background-color: var(--accent-color); /* r-pine */
+    color: var(--r-text);
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: background-color 0.3s, transform 0.2s;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-back:hover {
+    background-color: #559e8f; /* r-pine 약간 밝게 */
+    transform: translateY(-2px);
+}
+</style>
+
+<div class="cipher-table-container">
+    
+    <a href="#" class="btn-back" onclick="window.location.href='./index.html'; return false;">
+        🏠 메인 화면으로 돌아가기
+    </a>
+
+    <h2>Fiverf 암호 규칙 (Cipher Mapping)</h2>
+    
+    <table class="cipher-table">
+        <thead>
+            <tr>
+                <th>한글/자모 (Jamo)</th>
+                <th>암호 코드 (Cipher Code)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td colspan="2" style="background-color: var(--r-highlight); color: var(--r-rose); font-weight: 600;">단어 및 글자 구분자</td></tr>
+            <tr><td>글자 간 구분</td><td>(공백)</td></tr>
+            <tr><td>단어 간 구분</td><td>(공백 2칸)</td></tr>
+            
+            <tr><td colspan="2" style="background-color: var(--r-highlight); color: var(--r-rose); font-weight: 600;">초성 (Consonants)</td></tr>
+            <tr><td>ㄱ</td><td>-</td></tr><tr><td>ㄴ</td><td>-*</td></tr><tr><td>ㄷ</td><td>*-*</td></tr><tr><td>ㄹ</td><td>-**</td></tr><tr><td>ㅁ</td><td>*-**</td></tr><tr><td>ㅂ</td><td>**-*</td></tr><tr><td>ㅅ</td><td>**-**</td></tr><tr><td>ㅇ</td><td>--</td></tr><tr><td>ㅈ</td><td>--*</td></tr><tr><td>ㅊ</td><td>*--*</td></tr><tr><td>ㅋ</td><td>--**</td></tr><tr><td>ㅌ</td><td>*--**</td></tr><tr><td>ㅍ</td><td>**--**</td></tr><tr><td>ㅎ</td><td>---</td></tr>
+            <tr><td>ㄲ</td><td>[-]</td></tr><tr><td>ㄸ</td><td>[*-*]</td></tr><tr><td>ㅃ</td><td>[**-*]</td></tr><tr><td>ㅆ</td><td>[**-**]</td></tr>
+
+            <tr><td colspan="2" style="background-color: var(--r-highlight); color: var(--r-rose); font-weight: 600;">중성 (Vowels)</td></tr>
+            <tr><td>ㅣ</td><td>:</td></tr><tr><td>ㅏ</td><td>:></td></tr><tr><td>ㅓ</td><td><:</td></tr><tr><td>ㅑ</td><td>;></td></tr><tr><td>ㅕ</td><td><;</td></tr><tr><td>ㅐ</td><td>;</td></tr><tr><td>ㅒ</td><td>~</td></tr><tr><td>ㅔ</td><td><::</td></tr><tr><td>ㅖ</td><td><;;</td></tr><tr><td>ㅡ</td><td>()</td></tr><tr><td>ㅗ</td><td>(^)</td></tr><tr><td>ㅛ</td><td>(^^)</td></tr><tr><td>ㅜ</td><td>(#)</td></tr><tr><td>ㅠ</td><td>(##)</td></tr>
+            
+            <tr><td colspan="2" style="background-color: var(--r-highlight); color: var(--r-rose); font-weight: 600;">복합 종성 (Compound Final Consonants)</td></tr>
+            <tr><td>ㄳ</td><td>{-}{**-**}</td></tr>
+            <tr><td>ㄵ</td><td>{-*}{--*}</td></tr>
+            <tr><td>ㄶ</td><td>{-*}{---}</td></tr>
+            <tr><td>ㄺ</td><td>{-**}{-}</td></tr>
+            <tr><td>ㄻ</td><td>{-**}{*-**}</td></tr>
+            <tr><td>ㄼ</td><td>{-**}{**-*}</td></tr>
+            <tr><td>ㄽ</td><td>{-**}{**-**}</td></tr>
+            <tr><td>ㄾ</td><td>{-**}{*--**}</td></tr>
+            <tr><td>ㄿ</td><td>{-**}{**--**}</td></tr>
+            <tr><td>ㅀ</td><td>{-**}{---}</td></tr>
+            <tr><td>ㅄ</td><td>{**-* }{**-**}</td></tr>
+            
+            <tr><td colspan="2" style="background-color: var(--r-highlight); color: var(--r-rose); font-weight: 600;">특수 문자 (Special Characters)</td></tr>
+            <tr><td>!</td><td>!!!</td></tr><tr><td>?</td><td>???</td></tr><tr><td>@</td><td>.__.</td></tr><tr><td>#</td><td>......</td></tr><tr><td>$</td><td>$$$</td></tr><tr><td>.</td><td>...</td></tr>
+        </tbody>
+    </table>
+</div>

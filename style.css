@@ -72,6 +72,7 @@
     --sub-text: #908caa;
     --font-main: 'Suit', sans-serif; /* 폰트 이름 변경 적용 */
     --down-color: #f6c177;
+    --table-color: #c4a7e7;
 }
 
 * {
@@ -195,6 +196,13 @@ textarea:focus {
 .btn.download {
     background-color: var(--down-color) ;
     color: white;
+    box-shadow: 0 4px 15px rgba(15, 52, 96, 0.4);
+}
+
+
+.btn.table {
+    background-color: var(--table-color);
+    color : white;
     box-shadow: 0 4px 15px rgba(15, 52, 96, 0.4);
 }
 
