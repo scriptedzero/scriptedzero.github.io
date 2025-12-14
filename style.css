@@ -64,12 +64,12 @@
 /* 사용자 제공 SUIT 웹폰트 정의 끝 */
 
 :root {
-    --bg-color: #1a1a2e;
-    --card-bg: #16213e;
-    --accent-color: #0f3460;
-    --highlight-color: #e94560;
-    --text-color: #f1f1f1;
-    --sub-text: #a0a0a0;
+    --bg-color: #232136;
+    --card-bg: #ea9a97;
+    --accent-color: #3e8fb0;
+    --highlight-color: #eb6f92;
+    --text-color: #e0def4;
+    --sub-text: #908caa;
     --font-main: 'Suit', sans-serif; /* 폰트 이름 변경 적용 */
     --down-color: #f6c177;
 }
